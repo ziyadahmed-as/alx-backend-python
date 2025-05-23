@@ -1,5 +1,6 @@
 import sqlite3
 import functools
+from datetime import datetime 
 #decorator to log SQL queries before execution
 def log_queries(func):
     #wrapper function to log the query
