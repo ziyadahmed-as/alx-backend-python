@@ -40,16 +40,26 @@ async def async_fetch_users() -> List[Tuple[int, str, int]]:
         return users
 
 
+# Fetch users older than a specified age from the database
+# This function demonstrates how to filter records based on a condition.
 async def async_fetch_older_users(age_threshold: int = 40) -> List[Tuple[int, str, int]]:
     """
-    Fetch users older than a given age.
+    Asynchronously fetch users older than the specified age from the database.
+
+    Args:
+        age_threshold (int): The minimum age to filter users. Default is 40.
+
+    Returns:
+        List[Tuple[int, str, int]]: A list of user records (id, name, age) matching the criteria.
     """
     async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute("SELECT * FROM users WHERE age > ?", (age_threshold,))
+        cursor = await db.execute(
+            "SELECT * FROM users WHERE age > ?",
+            (age_threshold,)
+        )
         users = await cursor.fetchall()
         await cursor.close()
         return users
-
 
 
 # Excute user fetch queries concurrently Function
