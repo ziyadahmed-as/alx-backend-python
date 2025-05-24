@@ -2,7 +2,7 @@ import asyncio
 import aiosqlite
 from typing import List, Tuple
 
-DATABASE_PATH = "example_async.db"
+DATABASE_PATH = "example.db"
 
 # Initialize the database and create the 'users' table
 # This function is called once to set up the database.
@@ -23,35 +23,34 @@ async def initialize_database() -> None:
             INSERT INTO users (name, age)
             VALUES (?, ?)
         """, [
-            ("Alice", 30),
-            ("Bob", 45),
-            ("Charlie", 50),
-            ("Diana", 28)
+            ("Abdi", 30),
+            ("Badhassa", 45),
+            ("Cala", 50),
+            ("Dagim", 28)
         ])
         await db.commit()
-
-# Fetch all users from the 'users' table
 async def async_fetch_users() -> List[Tuple[int, str, int]]:
-    
+    """
+    Fetch all users from the database.
+    """
     async with aiosqlite.connect(DATABASE_PATH) as db:
         cursor = await db.execute("SELECT * FROM users")
         users = await cursor.fetchall()
         await cursor.close()
         return users
 
-#this Method fetches users older than a specified age threshold
+
 async def async_fetch_older_users(age_threshold: int = 40) -> List[Tuple[int, str, int]]:
     """
-    Fetches users older than the specified age threshold.
-
-    :param age_threshold: Minimum age to filter users.
-    :return: A list of users older than the given age.
+    Fetch users older than a given age.
     """
     async with aiosqlite.connect(DATABASE_PATH) as db:
         cursor = await db.execute("SELECT * FROM users WHERE age > ?", (age_threshold,))
-        older_users = await cursor.fetchall()
+        users = await cursor.fetchall()
         await cursor.close()
-        return older_users
+        return users
+
+
 
 # Excute user fetch queries concurrently Function
 async def fetch_concurrently() -> None:
