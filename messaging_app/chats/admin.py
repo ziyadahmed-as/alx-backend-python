@@ -16,5 +16,8 @@ class UserAdmin(BaseUserAdmin):
     )
 admin.site.register(User, UserAdmin)
 admin.site.register(Conversation)
-admin.site.register(Message)
-# Register your models here.
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('message_id', 'sender', 'conversation', 'sent_at')
+    search_fields = ('sender__email', 'conversation__conversation_id')
+

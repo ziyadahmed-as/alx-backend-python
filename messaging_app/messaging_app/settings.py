@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
+    'django_filters', # For filtering in DRF
+    'rest_framework_nested',  # For nested routers in DRF
     'chats',  # Your app for handling conversations and messages
     
 ]
