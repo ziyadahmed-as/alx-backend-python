@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_filters', # For filtering in DRF
     'rest_framework_nested',  # For nested routers in DRF
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklis',
+    'rest_framework_simplejwt.token_blacklist',
     'chats',  # Your app for handling conversations and messages
     
 ]
@@ -86,6 +86,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'messaging_app.urls'
