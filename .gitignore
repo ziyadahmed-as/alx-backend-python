@@ -1,0 +1,14 @@
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+# Ignore log files
+*.log
+# Ignore compiled C extensions
+*.env
+*.sqlite3
+*.db
+.vscode/
+venv/
+.env.local
+.env.development
+.env.test
