@@ -11,9 +11,15 @@ class IsParticipantOfConversation(BasePermission):
     """
 
     def has_permission(self, request, view):
-        # Allow safe methods (GET, HEAD, OPTIONS) for all users
+        # Allow authenticated users only
         return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
         # Check if the user is a participant in the conversation
-        return request.user in [obj.sender, obj.receiver]
+        is_participant = request.user in [obj.sender, obj.receiver]
+
+        # Allow GET, HEAD, OPTIONS (SAFE_METHODS) and also PUT, PATCH, DELETE if the user is a participant
+        if request.method in SAFE_METHODS or request.method in ['PUT', 'PATCH', 'DELETE']:
+            return is_participant
+
+        return False
