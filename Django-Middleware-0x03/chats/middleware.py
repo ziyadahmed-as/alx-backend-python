@@ -74,7 +74,7 @@ class OffensiveLanguageMiddleware:
         return request.META.get("REMOTE_ADDR")
 # role-based permission middleware
 ## This middleware checks if the user has the required role to access certain API endpoints.
-class RolePermissionMiddleware:
+class RolepermissionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
