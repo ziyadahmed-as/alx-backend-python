@@ -72,3 +72,30 @@ class OffensiveLanguageMiddleware:
         if x_forwarded_for:
             return x_forwarded_for.split(",")[0]
         return request.META.get("REMOTE_ADDR")
+# role-based permission middleware
+## This middleware checks if the user has the required role to access certain API endpoints.
+class RolePermissionMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Example paths that require admin or moderator
+        protected_paths = ["/api/messages/", "/api/conversations/"]
+        protected_methods = ["POST", "DELETE", "PUT", "PATCH"]
+
+        if request.path.startswith(tuple(protected_paths)) and request.method in protected_methods:
+            user = request.user
+
+            if not user.is_authenticated:
+                return JsonResponse({"error": "Authentication required."}, status=403)
+
+            # Assume user has 'role' attribute (you can adjust this to your actual role logic)
+            user_role = getattr(user, "role", "user")
+
+            if user_role not in ["admin", "moderator"]:
+                return JsonResponse(
+                    {"error": "You do not have permission to perform this action."},
+                    status=403
+                )
+
+        return self.get_response(request)
