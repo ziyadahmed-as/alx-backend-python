@@ -2,7 +2,7 @@
 
 *.py[cod]
 # Ignore log files
-*.log
+
 # Ignore compiled C extensions
 *.env
 *.sqlite3
