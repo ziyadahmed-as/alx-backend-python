@@ -15,6 +15,9 @@ request_logger.setLevel(logging.INFO)
 
 
 class RequestLoggingMiddleware:
+    """Middleware to log requests with user information and path."""
+    # This middleware logs each request with the user and path information.
+    
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -27,6 +30,7 @@ class RequestLoggingMiddleware:
 
 # restrict access to chat functionality between 6 PM and 9 PM
 class RestrictAccessByTimeMiddleware:
+    """Middleware to restrict access to chat functionality based on time of day."""
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -73,8 +77,9 @@ class OffensiveLanguageMiddleware:
             return x_forwarded_for.split(",")[0]
         return request.META.get("REMOTE_ADDR")
 # role-based permission middleware
-## This middleware checks if the user has the required role to access certain API endpoints.
 class RolepermissionMiddleware:
+    """Middleware to restrict access based on user roles."""
+    
     def __init__(self, get_response):
         self.get_response = get_response
 
