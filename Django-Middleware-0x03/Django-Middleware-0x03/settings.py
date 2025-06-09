@@ -91,10 +91,12 @@ MIDDLEWARE = [
    'chats.middleware.RequestLoggingMiddleware',
     'chats.middleware.RestrictAccessByTimeMiddleware',
     'chats.middleware.OffensiveLanguageMiddleware',
-    'chats.middleware.RolePermissionMiddleware',
+    
+    #add your custom middleware here
+    'chats.middleware.RolepermissionMiddleware',
 ]
 
-ROOT_URLCONF = 'Django_Middleware_0x03.urls'
+ROOT_URLCONF = 'Django_Middleware.urls'
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Django_Middleware_0x03.settings')
 
 TEMPLATES = [
