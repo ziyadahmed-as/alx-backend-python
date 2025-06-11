@@ -47,10 +47,14 @@ INSTALLED_APPS = [
     'rest_framework_nested',  # For nested routers in DRF
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'chats',  # Your app for handling conversations and messages
+    'messaging',  # Your app for handling messaging features
+    
+    'django_chat',  # Your app for handling chat features
+    'corsheaders',  # For handling CORS
+    
     
 ]
-AUTH_USER_MODEL = 'chats.User'
+AUTH_USER_MODEL = 'messaging.User'
 
 # Rest Framework settings
 REST_FRAMEWORK = {
