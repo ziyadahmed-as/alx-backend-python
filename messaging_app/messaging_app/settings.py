@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'rest_framework',
+    'rest_framework', # Django REST Framework for building APIs
     'django_filters', # For filtering in DRF
     'rest_framework_nested',  # For nested routers in DRF
     'rest_framework_simplejwt',
