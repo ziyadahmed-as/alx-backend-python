@@ -16,10 +16,12 @@ def threaded_messages_view(request):
 
 @login_required
 def unread_inbox_view(request):
-    unread_messages = Message.unread.for_user(request.user)
+    """ View to display unread messages in the user's inbox."""
+    unread_messages = Message.unread.unread_for_user(request.user)  # exact match
     return render(request, 'messaging/unread_inbox.html', {'unread_messages': unread_messages})
 
 def get_user_conversations(user):
+    """Retrieve all root messages (conversations) for a user."""
     root_messages = (
         Message.objects.filter(receiver=user, parent_message__isnull=True)
         .select_related('sender', 'receiver')
