@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.views.decorators.cache import cache_page
 from django.db.models import Prefetch
 from .models import Message
 
@@ -27,6 +28,11 @@ def unread_messages_view(request):
     return render(request, 'messaging/unread_messages.html', {
         'messages': unread_messages
     })
+    
+@cache_page(60)  # Cache this view for 60 seconds
+def conversation_messages_view(request, conversation_id):
+    messages = Message.objects.filter(parent_message_id=conversation_id).order_by('timestamp')
+    return render(request, 'chats/conversation_messages.html', {'messages': messages})
 
 def get_user_conversations(user):
     """Retrieve all root messages (conversations) for a user."""
