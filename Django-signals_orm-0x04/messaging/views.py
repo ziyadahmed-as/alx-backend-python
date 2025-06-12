@@ -20,6 +20,14 @@ def unread_inbox_view(request):
     unread_messages = Message.unread.unread_for_user(request.user)  # exact match
     return render(request, 'messaging/unread_inbox.html', {'unread_messages': unread_messages})
 
+def unread_messages_view(request):
+    user = request.user
+    unread_messages = Message.unread.unread_for_user(user).only('sender', 'content', 'timestamp')
+    
+    return render(request, 'messaging/unread_messages.html', {
+        'messages': unread_messages
+    })
+
 def get_user_conversations(user):
     """Retrieve all root messages (conversations) for a user."""
     root_messages = (
