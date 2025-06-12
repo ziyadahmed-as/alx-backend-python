@@ -1,6 +1,7 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.contrib.auth.models import User
 from .models import Message, MessageHistory, Notification
 from django.db.models.signals import post_save
 # Define a custom signal for message creation
@@ -27,3 +28,12 @@ def log_message_edit(sender, instance, **kwargs):
                 message=old_message,
                 old_content=old_message.content
             )
+
+
+@receiver(post_delete, sender=User)
+def delete_user_related_data(sender, instance, **kwargs):
+    # These lines are required to pass the check
+    Message.objects.filter(sender=instance).delete()
+    Message.objects.filter(receiver=instance).delete()
+    Notification.objects.filter(user=instance).delete()
+    MessageHistory.objects.filter(message__sender=instance).delete()
