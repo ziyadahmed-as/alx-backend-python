@@ -5,6 +5,15 @@ from django.contrib.auth.models import User
 from django.db.models import Prefetch
 from .models import Message
 
+
+@login_required
+def threaded_messages_view(request):
+    messages = Message.objects.filter(parent_message__isnull=True, sender=request.user)\
+        .select_related('sender')\
+        .prefetch_related('replies__sender')
+
+    return render(request, 'messaging/threaded_messages.html', {'messages': messages})
+
 def get_user_conversations(user):
     root_messages = (
         Message.objects.filter(receiver=user, parent_message__isnull=True)
