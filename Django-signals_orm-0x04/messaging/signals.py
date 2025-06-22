@@ -1,9 +1,8 @@
-from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import User
 from .models import Message, MessageHistory, Notification
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete, pre_save
 # Define a custom signal for message creation
 
 @receiver(post_save, sender=Message)

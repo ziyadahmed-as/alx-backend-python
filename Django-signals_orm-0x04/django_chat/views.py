@@ -13,6 +13,7 @@ def delete_user(request):
     logout(request)  # Log out the user before deletion
     user.delete()    # Triggers post_delete signal
     return redirect('home')  # Replace 'home' with your homepage URL name
+
 @login_required
 def threaded_messages_view(request):
     messages = Message.objects.filter(parent_message__isnull=True, sender=request.user)\
