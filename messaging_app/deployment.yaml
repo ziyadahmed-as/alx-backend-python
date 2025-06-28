@@ -1,3 +1,4 @@
+# This file defines the Kubernetes deployment and service for the Django messaging application.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
