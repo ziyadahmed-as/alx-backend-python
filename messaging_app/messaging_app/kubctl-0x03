@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "🚀 Applying updated blue deployment (v2.0)..."
+kubectl apply -f blue_deployment.yaml
+
+echo "⏳ Monitoring rolling update status..."
+kubectl rollout status deployment/django-blue
+
+echo "🌐 Starting availability test with curl..."
+for i in {1..20}; do
+    curl -s http://localhost:8000/ > /dev/null
+    echo "Request $i sent at $(date)"
+    sleep 1
+done
+
+echo "🔍 Verifying current running pods..."
+kubectl get pods -l app=django-messaging
