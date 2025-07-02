@@ -42,3 +42,68 @@ pipeline {
         // Manual trigger only
     }
 }
+
+
+pipeline {
+    agent any
+
+    environment {
+        VENV = '.venv'
+        DOCKER_IMAGE = 'your-dockerhub-username/messaging-app:latest'  // Change this
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/ziyadahmed-as/alx-backend-python.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    python3 -m venv ${VENV}
+                    source ${VENV}/bin/activate
+                    pip3 install -r messaging_app/requirements.txt
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh '''
+                    source ${VENV}/bin/activate
+                    pytest messaging_app/tests/ --junitxml=report.xml
+                '''
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                junit 'report.xml'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${DOCKER_IMAGE}")
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+    }
+
+    triggers {
+        // Manual trigger only
+    }
+}
