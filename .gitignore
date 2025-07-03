@@ -2,13 +2,12 @@
 
 *.py[cod]
 # Ignore log files
-
+venv/
 # Ignore compiled C extensions
 
 *.log
 *.sqlite3
 *.db
-venv/
 __pycache__/    
 
 
